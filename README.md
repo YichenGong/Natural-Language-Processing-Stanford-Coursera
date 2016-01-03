@@ -6,7 +6,7 @@
 HW1  Finished <br />
 HW2  Finished <br />
 HW3  Finsihed <br />
-HW4  <br />
+HW4  Part<br />
 HW5  <br />
 HW6  <br />
 HW7  <br />
