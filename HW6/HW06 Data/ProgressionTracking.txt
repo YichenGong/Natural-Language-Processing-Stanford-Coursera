@@ -1,0 +1,15 @@
+Progression Tracking
+
+Yichen Gong / yg1053@nyu.edu
+
+Expect result: perplexity less than 400
+
+Action: Tag everything in Vocab.gr, and generate every possibility in the S2.gr file, change the rate of S1 and S2 to 90 : 10
+Result: [PCFGParser]	cross-entropy=8.640 perplexity=3.989e+02  
+#Must be kidding me.. So I am done?
+
+
+Action: Add grammar correspond to the line three in dev.sen
+Result: [PCFGParser]	cross-entropy=8.661 perplexity=4.047e+02
+#What
+

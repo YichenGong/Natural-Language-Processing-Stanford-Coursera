@@ -6,10 +6,10 @@
 HW  | Status | Task
 --- | -------- | ------------
 HW1 | Complete | Implemented Regular Expression to filter all phone number and email address
-HW2 | Complete | Implemented Laplace Unigram / Bigram, Stupid Backoff, Kneser-Ney Smoothing language model to complete the Autocorrect task
-HW3 | Complete | Implemented Naive Bayes Algorithm to predict the sentiment of movie reviews
+HW2 | Complete | Implemented Laplace Unigram / Bigram, Stupid Backoff, Kneser-Ney Smoothing language model to complete the Autocorrect task, reached expected 25% accuracy
+HW3 | Complete | Implemented Naive Bayes Algorithm to predict the sentiment of movie reviews, reached expected 80% accuracy
 HW4 | Partially Complete | Implemented Boolean Naive Bayes and Sentiment Lexicon to predict movie review sentiments
-HW5 | Complete | Extracted the features from names, implemented the Word shape generalization<br />
+HW5 | Complete | Extracted the features from names, implemented the Word shape generalization. Reached the expected f1 score: 0.85<br />
 HW6 | <br />
 HW7 | <br />
 HW8 | <br />
