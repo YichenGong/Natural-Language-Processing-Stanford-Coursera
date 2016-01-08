@@ -13,3 +13,9 @@ Action: Add grammar correspond to the line three in dev.sen
 Result: [PCFGParser]	cross-entropy=8.661 perplexity=4.047e+02
 #What
 
+
+Action: Add grammar correnspond to "Speak not !"
+Result: [PCFGParser]	cross-entropy=8.622 perplexity=3.941e+02
+
+Action: Add grammar correnspond to "Arthur knows the Holy Grail."
+Result: [PCFGParser]	cross-entropy=8.515 perplexity=3.659e+02

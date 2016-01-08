@@ -27,3 +27,15 @@
 #5 	NP	Verbprpr PP
 
 #1	VP	VerbT Adj
+
+#"Speak Not !"
+#1 	S1 	Verbsm Neg ! #though better
+1 	VP 	Verbsm Neg
+1 	S1	VP !
+
+#"Arthur knows the Holy Grail."
+5	Nbar	Ppnnp
+
+#"Arthur , sixty inches , is a tiny king ."
+3 	NP	Paus NPß Paus
+5	Nbar	Adj Noun

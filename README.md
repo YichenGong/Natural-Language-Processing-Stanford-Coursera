@@ -10,7 +10,7 @@ HW2 | Complete | Implemented Laplace Unigram / Bigram, Stupid Backoff, Kneser-Ne
 HW3 | Complete | Implemented Naive Bayes Algorithm to predict the sentiment of movie reviews, reached expected 80% accuracy
 HW4 | Partially Complete | Implemented Boolean Naive Bayes and Sentiment Lexicon to predict movie review sentiments
 HW5 | Complete | Extracted the features from names, implemented the Word shape generalization. Reached the expected f1 score: 0.85<br />
-HW6 | <br />
+HW6 | Complete | <br />
 HW7 | <br />
 HW8 | <br />
 HW9 | <br />
