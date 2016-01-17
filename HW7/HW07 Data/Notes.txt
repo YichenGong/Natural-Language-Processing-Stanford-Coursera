@@ -1,0 +1,114 @@
+Notes
+现在有什么内容
+
+Lexicon
+Word_to_tag_counters(这个单词有什么tag的数量统计， dict（dict）)
+total_tokens（总共的token)
+total_word_types(单词的类型数量，about出现两次算作一个)
+tag_counter (这个tag出现的次数)
+word_counter (这个词出现的次数)
+type_to_tag_counter (tag 的种类计算)
+
+tally_tagging -- tag them
+get_all_tags -- get the tag types 
+is_known -- word known
+score_tagging -- p_tag_given_word / p_tag * p_word
+
+
+Grammar: 
+binary_rules_by_left_child
+	[binary_rule.left_child] ---> [list of binary rules]
+binary_rules_by_right_child
+	[binary_rule.right_child] ---> [list of binary rules]
+unary_rules_by_child
+	[unary_rule.child] ---> [list of unary rules]
+
+
+
+
+
+
+
+tally_tree:
+	symbol_counter(for collect symbol info)
+	unary_rule_counter(collect the unary rule)
+	binary_rule_counter(collect the binary rule)
+
+
+
+
+
+Unary - parent, child, score
+
+Binary-rule - parent, left child, right child, score
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The cky algorithm
+function CKY(words, grammar) returns [most_probable_parse, prob]
+	score = new double [#(words) + 1][#(words) + 1][#(nonterms)]
+	back = new Pair[#(words)+1][#(words) + 1][#n(onterns)]
+	for i = 0; i < #(words); i++
+		for A in nonterms
+			if A -> words[i] in grammar
+				score[i][i+1][A] = P(A -> words[i])
+		//handle unaries
+		boolean added = true
+		while added
+			added = false
+			for A, B in nonterms
+				#A->B means in Unary, A is the parent, B is the child
+				if score[i][i+1][B] > 0 && A->B in grammar
+					prob = P(A->B) * score[i][i+1][B]
+					if prob > score [i][i+1][A]
+					back[i][i+1][A] = B
+					added = true
+
+	for span = 2 to #(words)
+		for begin = 0 to #(words) - span
+			end = begin + span
+			for split = begin + 1 to end - 1
+				for A,B,C in terms
+				#A->BC means in Binary rule, A is the parent, B C are the childs
+				prob = score[begin][split][B] * score[split][end][C]*P(A->BC)
+				if prob > score[begin][end][A]
+					score[begin][end][A] = prob
+					back[begin][end][A] = new Triple(split, B, C)
+
+			//handle unaries
+			boolean added = true
+			while added
+				added = true
+				for A, B in nonterms
+					prob = P(A->B)*score[begin][end][B];
+					if prob > score[begin][end][A]
+						score[begin][end][A] = prob
+						back[begin][end][A] = B
+						added = true
+	return buildTree(score, back)
+
+
+
+
+
+
+
+

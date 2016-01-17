@@ -1,0 +1,44 @@
+
+
+PCFGParserTest options:
+  path        : ../data/
+  test_data   : 
+  max_length  : 20
+  parser      : PCFGParser
+  data        : miniTest
+
+Using parser: PCFGParser
+Data will be loaded from: ../data/
+Loading training trees...
+done.
+Loading test trees...
+done.
+
+Training parser...
+Testing parser
+Guess:
+(ROOT
+  (S
+    (NP (N cats))
+    (VP (V scratch)
+      (NP (N walls))
+      (PP (P with)
+        (NP (N claws))))))
+
+Gold:
+(ROOT
+  (S
+    (NP (N cats))
+    (VP (V scratch)
+      (NP (N walls))
+      (PP (P with)
+        (NP (N claws))))))
+
+ [Current]    P: 100.00   R: 100.00   F1: 100.00   EX: 100.00
+
+ [Average]    P: 100.00   R: 100.00   F1: 100.00   EX: 100.00
+
+Process finished with exit code 0
+
+
+
