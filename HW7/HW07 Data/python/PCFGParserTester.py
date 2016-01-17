@@ -51,9 +51,10 @@ class PCFGParser(Parser):
         self.get_base_tags(sentence)
 
         #Handle Unaries
-        added = True
-        while (added):
-            added = self.handle_unaries( 0, len(sentence))
+        for i in range(0, len(sentence)):
+            added = True
+            while (added):
+                added = self.handle_unaries( 0 + i, 1 + i)
 
         for level in range(1, len(sentence)):
             for begin in range(0, len(sentence) - level):
@@ -63,7 +64,7 @@ class PCFGParser(Parser):
 
                 added = True
                 while added:
-                    added = self.handle_unaries( level, len(sentence))
+                    added = self.handle_unaries(begin, end)
 
         tree = self.build_tree(0, len(sentence), sentence)
         tree = self.add_root(tree)
@@ -85,17 +86,29 @@ class PCFGParser(Parser):
                     self.background_parse[0 + i][1 + i][tag] = sentence[i]
 
 
-    def handle_unaries(self, level, length):
-        added = False
-        for i in range(0, length - level):
-            for tag_score_s in self.score_in_grammar[0 + i][1 + level + i].items():
-                if tag_score_s[0] in self.grammar.unary_rules_by_child:
-                    for unary in self.grammar.unary_rules_by_child[tag_score_s[0]]:
-                        if unary.score * tag_score_s[1] > self.score_in_grammar[0 + i][1 + level + i][unary.parent]:
-                            self.score_in_grammar[0 + i][1 + level + i][unary.parent] = unary.score * tag_score_s[1]
-                            self.background_parse[0 + i][1 + level + i][unary.parent] = [unary.child]
-                            added = True
+    # ORIGINAL SLOW
+    # def handle_unaries_d(self, level, length):
+    #     added = False
+    #     for i in range(0, length - level):
+    #         for tag_score_s in self.score_in_grammar[0 + i][1 + level + i].items():
+    #             if tag_score_s[0] in self.grammar.unary_rules_by_child:
+    #                 for unary in self.grammar.unary_rules_by_child[tag_score_s[0]]:
+    #                     if unary.score * tag_score_s[1] > self.score_in_grammar[0 + i][1 + level + i][unary.parent]:
+    #                         self.score_in_grammar[0 + i][1 + level + i][unary.parent] = unary.score * tag_score_s[1]
+    #                         self.background_parse[0 + i][1 + level + i][unary.parent] = [unary.child]
+    #                         added = True
+    #
+    #     return added
 
+    def handle_unaries(self, begin, end):
+        added = False
+        for tag_score in self.score_in_grammar[begin][end].items():
+            if tag_score[0] in self.grammar.unary_rules_by_child:
+                for unary in self.grammar.unary_rules_by_child[tag_score[0]]:
+                    if unary.score * tag_score[1] > self.score_in_grammar[begin][end][unary.parent]:
+                        self.score_in_grammar[begin][end][unary.parent] = unary.score * tag_score[1]
+                        self.background_parse[begin][end][unary.parent] = [unary.child]
+                        added = True
         return added
 
     def handle_binary(self, begin, split, end):
@@ -143,16 +156,6 @@ class PCFGParser(Parser):
                 return Tree(best_tag, [self.build_tree_recursive(begin, best_parse[0], sentence, best_parse[1]), self.build_tree_recursive(best_parse[0], end, sentence, best_parse[2])])
 
 
-
-
-
-    """
-    Structure:
-
-    score_in_grammar[start][end][tag] = score
-    the_best_parse[start][end][parse] = [[start, end, tag],[start,end, tag]]
-
-    """
 
 
 class BaselineParser(Parser):
@@ -263,7 +266,26 @@ class TreeAnnotations:
         # mark nodes with the label of their parent nodes, giving a second
         # order vertical markov process
 
+        unannotated_tree = TreeAnnotations.vertical_markovization(unannotated_tree)
+
+
+
         return TreeAnnotations.binarize_tree(unannotated_tree)
+
+
+    @classmethod
+    def vertical_markovization(cls, tree):
+        label = tree.label
+        tree = TreeAnnotations._vertical_markovization(tree.children[0], label)
+        return Tree(label, [tree])
+
+    @classmethod
+    def _vertical_markovization(self, tree, parent_label):
+        if tree.is_leaf():
+            return Tree(tree.label)
+        return Tree(tree.label + "^" + parent_label, [TreeAnnotations._vertical_markovization(tree, tree.label) for tree in tree.children])
+
+
 
     @classmethod
     def binarize_tree(cls, tree):

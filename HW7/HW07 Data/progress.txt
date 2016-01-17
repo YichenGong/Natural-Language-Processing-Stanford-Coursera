@@ -42,3 +42,27 @@ Process finished with exit code 0
 
 
 
+
+
+
+PCFGParserTest options:
+  path        : ../data/
+  test_data   : 
+  max_length  : 20
+  parser      : PCFGParser
+  data        : masc
+
+Using parser: PCFGParser
+Data will be loaded from: ../data/
+Loading MASC training trees... from: ../data/parser/masc/train
+Reading MASC from ../data/parser/masc/train
+done.
+Train trees size: 3595
+First train tree: (ROOT
+
+
+
+ [Average]    P: 66.37   R: 54.36   F1: 59.76   EX:  0.61
+
+
+
