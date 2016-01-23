@@ -12,7 +12,7 @@ HW4 | Partially Complete | Implemented Boolean Naive Bayes and Sentiment Lexicon
 HW5 | Complete | Extracted the features from names, implemented the Word shape generalization. Reached the expected f1 score: 0.85<br />
 HW6 | Complete | Implemented the Propabilitic Context Free Grammar features. Expected Perplexity lower than 400, achieved 368 <br />
 HW7 | lose points | Implemented the CKY algorithm, and implemented the vertical markovization<br />
-HW8 | <br />
+HW8 | Complete | Implemented the Inverted Index, Boolean Retrieval system, TF-IDF scoring and Cosine Similarity algorithm. Pass all tests.<br />
 HW9 | <br />
 
 

@@ -287,38 +287,42 @@ class IRSystem:
                 queryDict[word] += 1
             else:
                 queryDict[word] = 1
-
         queryWeight = []
         queryList = queryDict.keys()
         for word in queryList:
-                queryWeight.append(( 1 + math.log(float(queryDict[word]), 10)) * math.log((float(len(self.docs)) / len(self.inv_index[word])), 10))
+                #queryWeight.append(( 1 + math.log(float(queryDict[word]), 10)) * math.log((float(len(self.docs)) / len(self.inv_index[word])), 10))
+                queryWeight.append( 1 + math.log(queryDict[word], 10))
 
-        queryLength = math.sqrt(sum([x ** 2 for x in queryWeight]))
-        if queryLength != 0:
-            queryWeight = [x / queryLength for x in queryWeight]
-        else:
-            queryWeight = [0 for x in queryWeight]
+        # queryLength = math.sqrt(sum([x ** 2 for x in queryWeight]))
+        # if queryLength != 0:
+        #     queryWeight = [x / queryLength for x in queryWeight]
+        #    #print (queryWeight)
+        # else:
+        #     queryWeight = [0 for x in queryWeight]
 
         for doc_id in range(len(self.docs)):
             docWeightDict = {}
             docWeightList = []
             for word in self.docs[doc_id]:
-                wordWeight = 1 + math.log(float(self.inv_index[word][doc_id]),10)
-                docWeightDict[word] = wordWeight
-                docWeightList.append(wordWeight)
+                #wordWeight = 1 + math.log(float(self.inv_index[word][doc_id]),10)
+                wordWeight = self.get_tfidf(word, doc_id)
+                if word not in docWeightDict:
+                    docWeightDict[word] = wordWeight
+                    docWeightList.append(wordWeight)
+
+
             docLength = math.sqrt(sum([x ** 2 for x in docWeightList]))
 
             docWeight = []
             for word in queryList:
                 if word in docWeightDict:
-                    docWeight.append(docWeightDict[word] / docLength)
+                    docWeight.append(docWeightDict[word])
                 else:
                     docWeight.append(0.0)
 
-
             prod = 0.0
-            for i,v in enumerate(queryWeight):
-                prod += queryWeight[i] * docWeight[i]
+            for i in range(len(queryWeight)):
+                prod += queryWeight[i] * docWeight[i] / docLength
             scores[doc_id] = prod
 
 
@@ -337,8 +341,6 @@ class IRSystem:
         results = []
         for i in range(10):
             results.append((ranking[i], scores[ranking[i]]))
-
-        print (results)
         return results
 
 
