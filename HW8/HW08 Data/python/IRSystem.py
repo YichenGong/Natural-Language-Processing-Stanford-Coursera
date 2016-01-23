@@ -4,7 +4,6 @@ import math
 import os
 import re
 import sys
-import operator
 
 from PorterStemmer import PorterStemmer
 
@@ -158,6 +157,12 @@ class IRSystem:
                 else:
                     self.tfidf[word][d] = 0
 
+        self.tfidf_docLength = {}
+        for word in self.vocab:
+            for item in self.tfidf[word].items():
+                self.tfidf_docLength[item[0]] = self.tfidf_docLength.get(item[0], 0.0) + item[1] ** 2
+        self.tfidf_docLength = dict((d, math.sqrt(s)) for d, s in self.tfidf_docLength.items())
+
         # ------------------------------------------------------------------
 
 
@@ -301,24 +306,26 @@ class IRSystem:
         #     queryWeight = [0 for x in queryWeight]
 
         for doc_id in range(len(self.docs)):
-            docWeightDict = {}
-            docWeightList = []
-            for word in self.docs[doc_id]:
-                #wordWeight = 1 + math.log(float(self.inv_index[word][doc_id]),10)
-                wordWeight = self.get_tfidf(word, doc_id)
-                if word not in docWeightDict:
-                    docWeightDict[word] = wordWeight
-                    docWeightList.append(wordWeight)
+            # docWeightDict = {}
+            # docWeightList = []
+            # for word in self.docs[doc_id]:
+            #     #wordWeight = 1 + math.log(float(self.inv_index[word][doc_id]),10)
+            #     wordWeight = self.get_tfidf(word, doc_id)
+            #     if word not in docWeightDict:
+            #         docWeightDict[word] = wordWeight
+            #         #docWeightList.append(wordWeight)
 
 
-            docLength = math.sqrt(sum([x ** 2 for x in docWeightList]))
+            #docLength = math.sqrt(sum([x ** 2 for x in docWeightList]))
+            docLength = self.tfidf_docLength[doc_id]
 
             docWeight = []
             for word in queryList:
-                if word in docWeightDict:
-                    docWeight.append(docWeightDict[word])
-                else:
-                    docWeight.append(0.0)
+                # if word in docWeightDict:
+                #     docWeight.append(docWeightDict[word])
+                # else:
+                #     docWeight.append(0.0)
+                docWeight.append(self.get_tfidf(word, doc_id))
 
             prod = 0.0
             for i in range(len(queryWeight)):
